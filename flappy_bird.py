@@ -1,4 +1,5 @@
 # start modules
+import random
 import pgzrun
 # create constants
 WIDTH = 800
@@ -9,15 +10,17 @@ print ('"Click the mouse to "flap" upwards "' )
 print ("Dodge the pipes and the floor")
 print ("Good luck and have fun!")
 # make background
-background = "bg.png"
+background = ("images/bg.png")
+background.x = 400
+background.y = 300
 # make bird
 
 # make pipes
 
 # draw everything to screen
-
+def draw():
     # draw background
-
+    draw; "background"
     # draw characters
 
 # update everything
