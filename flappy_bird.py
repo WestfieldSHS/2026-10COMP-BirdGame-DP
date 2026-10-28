@@ -20,54 +20,71 @@ bird = Actor("bird")
 bird.x = 160
 bird.y = 300
 # make pipes
-List = []
+list = []
 topPipe1 = Actor("top")
 topPipe1.x = 266
 topPipe1.y = 0
-List.append(topPipe1)
+list.append(topPipe1)
 bottomPipe1 = Actor("bottom")
 bottomPipe1.x = 266
 bottomPipe1.y = 800
-List.append(bottomPipe1)
+list.append(bottomPipe1)
 topPipe2 = Actor("top")
 topPipe2.x = 532
 topPipe2.y = -200
-List.append(topPipe2)
+list.append(topPipe2)
 bottomPipe2 = Actor("bottom")
 bottomPipe2.x = 532
 bottomPipe2.y = 560
-List.append(bottomPipe2)
+list.append(bottomPipe2)
 topPipe3 = Actor("top")
 topPipe3.x = 798
 topPipe3.y = -120
-List.append(topPipe3)
+list.append(topPipe3)
 bottomPipe3 = Actor("bottom")
 bottomPipe3.x = 798
 bottomPipe3.y = 710
-List.append(bottomPipe3)
+list.append(bottomPipe3)
 # draw everything to screen
 def draw():
     # draw background
     background.draw()
     # draw characters
     bird.draw()
-    for pipe in List:
+    for pipe in list:
         pipe.draw()
 # update everything
 def update():
     # update bird
-    bird.y = bird.y + 1
+    bird.y = bird.y + 2.3
     # update pipes
-    for pipe in List:
-        pipe.x = pipe.x - 1
+    for pipe in list:
+        pipe.x = pipe.x - 1.5
     # bird hits bottom of screen
     if bird.y > HEIGHT:
         print("GAME OVER!")
         sys.exit()
     # bird hits pipes
-
+    if bird.colliderect(topPipe1):
+        print("GAME OVER!")
+        sys.exit()
+    elif bird.colliderect(topPipe2):
+        print("GAME OVER!")
+        sys.exit()
+    elif bird.colliderect(topPipe3):
+        print("GAME OVER!")
+        sys.exit()
+    elif bird.colliderect(bottomPipe1):
+        print("GAME OVER!")
+        sys.exit()
+    elif bird.colliderect(bottomPipe2):
+        print("GAME OVER!")
+        sys.exit()
+    elif bird.colliderect(bottomPipe3):
+        print("GAME OVER!")
+        sys.exit()
 # moving
 def on_mouse_down():
-    bird.y = bird.y - 50
+    bird.y = bird.y - 60
 # runs everything
 pgzrun.go()
