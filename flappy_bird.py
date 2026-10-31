@@ -60,29 +60,26 @@ def update():
     # update pipes
     for pipe in list:
         pipe.x = pipe.x - 1.5
+    for i in range(len(list)):
+        if list[i].x < -100:
+            list[i].x = 800
+            if i % 2 == 0:
+                list[i].y = random.randint(-300, -50)
+            else:
+                list[i].y = list[i-1].y + 800
     # bird hits bottom of screen
     if bird.y > HEIGHT:
         print("GAME OVER!")
         sys.exit()
     # bird hits pipes
-    if bird.colliderect(topPipe1):
-        print("GAME OVER!")
-        sys.exit()
-    elif bird.colliderect(topPipe2):
-        print("GAME OVER!")
-        sys.exit()
-    elif bird.colliderect(topPipe3):
-        print("GAME OVER!")
-        sys.exit()
-    elif bird.colliderect(bottomPipe1):
-        print("GAME OVER!")
-        sys.exit()
-    elif bird.colliderect(bottomPipe2):
-        print("GAME OVER!")
-        sys.exit()
-    elif bird.colliderect(bottomPipe3):
-        print("GAME OVER!")
-        sys.exit()
+    for i in range(0, len(list), 2):
+        if bird.colliderect(list[i]):
+            print("GAME OVER!")
+            sys.exit()
+    for i in range(1, len(list), 2):
+        if bird.colliderect(list[i]):
+            print("GAME OVER!")
+            sys.exit()
 # moving
 def on_mouse_down():
     bird.y = bird.y - 60
