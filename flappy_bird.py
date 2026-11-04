@@ -1,4 +1,5 @@
 # start modules
+import glob
 import random
 import pgzrun
 import sys
@@ -6,6 +7,7 @@ from pgzero.actor import Actor
 # create constants
 WIDTH = 800
 HEIGHT = 600
+SCORE = 0
 # print welcome
 print ("The game is about to start!")
 print ('"Click the mouse to "flap" upwards "' )
@@ -55,19 +57,25 @@ def draw():
         pipe.draw()
 # update everything
 def update():
+    global score
     # update bird
-    bird.y = bird.y + 2.3
+    bird.y = bird.y + 2.2
     # update pipes
     for pipe in list:
         pipe.x = pipe.x - 1.5
     for i in range(len(list)):
-        if list[i].x < -100:
+        if list[i].x < -44:
             list[i].x = 800
             if i % 2 == 0:
                 list[i].y = random.randint(-300, -50)
             else:
                 list[i].y = list[i-1].y + 800
-    # bird hits bottom of screen
+    for index in range(len(list)):
+        if list[index].x < -list[index].width:
+            list[index].x = WIDTH
+            if list[index].image == "top": 
+                SCORE += 1
+# bird hits bottom of screen
     if bird.y > HEIGHT:
         print("GAME OVER!")
         sys.exit()
@@ -82,6 +90,6 @@ def update():
             sys.exit()
 # moving
 def on_mouse_down():
-    bird.y = bird.y - 60
+    bird.y = bird.y - 50
 # runs everything
 pgzrun.go()
