@@ -1,6 +1,6 @@
 # start modules
-import glob
 import random
+
 import pgzrun
 import sys
 from pgzero.actor import Actor
@@ -8,6 +8,8 @@ from pgzero.actor import Actor
 WIDTH = 800
 HEIGHT = 600
 SCORE = 0
+GAP = 210
+gameOver = False
 # print welcome
 print ("The game is about to start!")
 print ('"Click the mouse to "flap" upwards "' )
@@ -48,48 +50,59 @@ bottomPipe3.x = 798
 bottomPipe3.y = 710
 list.append(bottomPipe3)
 # draw everything to screen
+
 def draw():
+    
     # draw background
     background.draw()
     # draw characters
     bird.draw()
     for pipe in list:
         pipe.draw()
+    screen.draw.text(f"My score is: {SCORE}", topleft=(10, 10), color=(0, 0, 0), fontsize = 30)
 # update everything
 def update():
-    global score
+    global SCORE
     # update bird
-    bird.y = bird.y + 2.2
+    bird.y = bird.y + 1.5
     # update pipes
     for pipe in list:
-        pipe.x = pipe.x - 1.5
-    for i in range(len(list)):
-        if list[i].x < -44:
-            list[i].x = 800
-            if i % 2 == 0:
-                list[i].y = random.randint(-300, -50)
-            else:
-                list[i].y = list[i-1].y + 800
+        pipe.x = pipe.x - 1
+    newPipeY = random.randint(155, 445)
     for index in range(len(list)):
+
         if list[index].x < -list[index].width:
+
             list[index].x = WIDTH
-            if list[index].image == "top": 
+
+            if list[index].image == "top":
+
+                list[index].y = newPipeY - (300 + GAP / 2)
+
                 SCORE += 1
+
+            # bottom pipe
+            else:
+                list[index].y = newPipeY + 300 + GAP / 2
+
 # bird hits bottom of screen
     if bird.y > HEIGHT:
         print("GAME OVER!")
+        print(f"Final score: {SCORE}")
         sys.exit()
     # bird hits pipes
     for i in range(0, len(list), 2):
         if bird.colliderect(list[i]):
             print("GAME OVER!")
+            print(f"Final score: {SCORE}")
             sys.exit()
-    for i in range(1, len(list), 2):
+    for i in range(0, len(list), 1):
         if bird.colliderect(list[i]):
             print("GAME OVER!")
+            print(f"Final score: {SCORE}")
             sys.exit()
 # moving
 def on_mouse_down():
-    bird.y = bird.y - 50
+    bird.y = bird.y - 40
 # runs everything
 pgzrun.go()
