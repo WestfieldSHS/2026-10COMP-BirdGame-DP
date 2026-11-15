@@ -1,6 +1,6 @@
 # start modules
 import random
-
+from turtle import Screen
 import pgzrun
 import sys
 from pgzero.actor import Actor
@@ -52,55 +52,65 @@ list.append(bottomPipe3)
 # draw everything to screen
 
 def draw():
-    
-    # draw background
-    background.draw()
-    # draw characters
-    bird.draw()
-    for pipe in list:
-        pipe.draw()
-    screen.draw.text(f"My score is: {SCORE}", topleft=(10, 10), color=(0, 0, 0), fontsize = 30)
+    global SCORE
+    if gameOver == True:
+        screen.fill((0, 0, 0))
+        screen.draw.text(
+            "GAME OVER!",
+            center=(400, 220),
+            color=(255, 0, 0),
+            fontsize=60)
+        screen.draw.text(
+            f"My score was: {SCORE}",
+            center=(400, 300),
+            color=(255, 255, 255),
+            fontsize=30)
+        screen.draw.text(
+            "Thank you for playing!",
+            center=(400, 370),
+            color=(255, 255, 255),
+            fontsize=20)
+    else:
+        # draw background
+            background.draw()
+            # draw characters
+            bird.draw()
+            for pipe in list:
+                pipe.draw()
+           
 # update everything
 def update():
     global SCORE
-    # update bird
-    bird.y = bird.y + 1.5
-    # update pipes
-    for pipe in list:
-        pipe.x = pipe.x - 1
-    newPipeY = random.randint(155, 445)
-    for index in range(len(list)):
-
-        if list[index].x < -list[index].width:
-
-            list[index].x = WIDTH
-
-            if list[index].image == "top":
-
-                list[index].y = newPipeY - (300 + GAP / 2)
-
-                SCORE += 1
-
-            # bottom pipe
-            else:
-                list[index].y = newPipeY + 300 + GAP / 2
-
+    global gameOver
+    if gameOver == False:
+        # update bird
+        bird.y = bird.y + 1.5
+        # update pipes
+        for pipe in list:
+            pipe.x = pipe.x - 1
+        newPipeY = random.randint(155, 445)
+        for index in range(len(list)):
+            if list[index].x < -list[index].width:
+                list[index].x = WIDTH
+                if list[index].image == "top":
+                    list[index].y = newPipeY - (300 + GAP / 2)
+                else:
+                    list[index].y = newPipeY + 300 + GAP / 2
+                    SCORE += 1
 # bird hits bottom of screen
-    if bird.y > HEIGHT:
-        print("GAME OVER!")
-        print(f"Final score: {SCORE}")
-        sys.exit()
-    # bird hits pipes
-    for i in range(0, len(list), 2):
-        if bird.colliderect(list[i]):
-            print("GAME OVER!")
-            print(f"Final score: {SCORE}")
-            sys.exit()
-    for i in range(0, len(list), 1):
-        if bird.colliderect(list[i]):
-            print("GAME OVER!")
-            print(f"Final score: {SCORE}")
-            sys.exit()
+        if bird.y > HEIGHT:
+                print("GAME OVER!")
+                print(f"Final score: {SCORE}")
+                gameOver = True
+            # bird hits pipes
+        for i in range(0, len(list), 2):
+            if bird.colliderect(list[i]):
+                print()
+        for i in range(0, len(list), 1):
+            if bird.colliderect(list[i]):
+                print("GAME OVER!")
+                print(f"Final score: {SCORE}")
+                gameOver = True
 # moving
 def on_mouse_down():
     bird.y = bird.y - 40
