@@ -1,6 +1,7 @@
 # start modules
 import random
-from turtle import Screen
+from tracemalloc import start
+from turtle import Screen, st
 import pgzrun
 import sys
 from pgzero.actor import Actor
@@ -10,48 +11,56 @@ HEIGHT = 600
 SCORE = 0
 GAP = 210
 gameOver = False
+start = False
 # print welcome
 print ("The game is about to start!")
 print ('"Click the mouse to "flap" upwards "' )
 print ("Dodge the pipes and the floor")
 print ("Good luck and have fun!")
 # make background
-background = Actor("bg")
+background = Actor("bg2")
 background.x = 400
 background.y = 300
 # make bird
-bird = Actor("bird")
+bird = Actor("bird2")
 bird.x = 160
 bird.y = 300
 # make pipes
 list = []
-topPipe1 = Actor("top")
+topPipe1 = Actor("top2")
 topPipe1.x = 266
 topPipe1.y = 0
 list.append(topPipe1)
-bottomPipe1 = Actor("bottom")
+bottomPipe1 = Actor("bottom2")
 bottomPipe1.x = 266
 bottomPipe1.y = 800
 list.append(bottomPipe1)
-topPipe2 = Actor("top")
+topPipe2 = Actor("top2")
 topPipe2.x = 532
 topPipe2.y = -200
 list.append(topPipe2)
-bottomPipe2 = Actor("bottom")
+bottomPipe2 = Actor("bottom2")
 bottomPipe2.x = 532
 bottomPipe2.y = 560
 list.append(bottomPipe2)
-topPipe3 = Actor("top")
+topPipe3 = Actor("top2")
 topPipe3.x = 798
 topPipe3.y = -120
 list.append(topPipe3)
-bottomPipe3 = Actor("bottom")
+bottomPipe3 = Actor("bottom2")
 bottomPipe3.x = 798
 bottomPipe3.y = 710
 list.append(bottomPipe3)
 # draw everything to screen
 
 def draw():
+    if start == False:
+        screen.fill((0, 0, 0))
+        screen.draw.text(
+        "Click the game to start!",
+        center=(400, 220),
+        color=(255, 0, 0),
+        fontsize=60)
     global SCORE
     if gameOver == True:
         screen.fill((0, 0, 0))
@@ -77,9 +86,11 @@ def draw():
             bird.draw()
             for pipe in list:
                 pipe.draw()
-           
+            screen.draw.text(f"SCORE: {SCORE}",center=(60, 30),color=(0, 0, 0),fontsize=30)
 # update everything
 def update():
+    if start == True:
+        pass
     global SCORE
     global gameOver
     if gameOver == False:
@@ -92,7 +103,7 @@ def update():
         for index in range(len(list)):
             if list[index].x < -list[index].width:
                 list[index].x = WIDTH
-                if list[index].image == "top":
+                if list[index].image == "top2":
                     list[index].y = newPipeY - (300 + GAP / 2)
                 else:
                     list[index].y = newPipeY + 300 + GAP / 2
@@ -113,6 +124,9 @@ def update():
                 gameOver = True
 # moving
 def on_mouse_down():
+    global start
+    if start == False:
+        start =  True
     bird.y = bird.y - 40
 # runs everything
 pgzrun.go()
