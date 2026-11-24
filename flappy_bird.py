@@ -95,18 +95,18 @@ def update():
     global gameOver
     if gameOver == False:
         # update bird
-        bird.y = bird.y + 1.5
+        bird.y = bird.y + 1.3
         # update pipes
         for pipe in list:
             pipe.x = pipe.x - 1
         newPipeY = random.randint(155, 445)
-        for index in range(len(list)):
-            if list[index].x < -list[index].width:
-                list[index].x = WIDTH
-                if list[index].image == "top2":
-                    list[index].y = newPipeY - (300 + GAP / 2)
+        for i in range(len(list)):
+            if list[i].x < -list[i].width:
+                list[i].x = WIDTH
+                if list[i].image == "top2":
+                    list[i].y = newPipeY - (300 + GAP / 2)
                 else:
-                    list[index].y = newPipeY + 300 + GAP / 2
+                    list[i].y = newPipeY + 300 + GAP / 2
                     SCORE += 1
 # bird hits bottom of screen
         if bird.y > HEIGHT:
